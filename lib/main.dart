@@ -147,7 +147,7 @@ class _MyFormPageState extends State<MyFormPage> {
             ),
             SizedBox(height: 16,),
             ElevatedButton(onPressed: () {
-              context.go('/seconde', extra: 42);
+              context.push('/seconde', extra: 42);
             }, child: Text("Aller à la seconde page"))
 
           ],
