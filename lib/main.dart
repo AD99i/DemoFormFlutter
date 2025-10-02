@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import 'SecondPage.dart';
 
 void main() {
   runApp(const MyApp());
 }
+
+final GoRouter _router = GoRouter(
+  routes:[
+    GoRoute(
+      path: '/',
+      builder: (context, state) => MyFormPage(),
+    ),
+    GoRoute(
+      path: '/second',
+      builder: (context, state){
+        int arg = state.extra as int;
+        return SecondPage(nombre: arg);
+      }
+    )
+
+  ]
+);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -10,16 +30,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Scaffold(
-          appBar: AppBar(
-            title: Text('Demo form'),
-          ),
-          body: MyFormPage()),
+      routerConfig: _router,
     );
   }
 }
@@ -56,7 +72,11 @@ class _MyFormPageState extends State<MyFormPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Center(
+    return  Scaffold(
+        appBar: AppBar(
+          title: Text('Demo form'),
+        ),
+        body: Center(
       child:  Form(
         key: _key,
         child: ListView(
@@ -126,11 +146,15 @@ class _MyFormPageState extends State<MyFormPage> {
               child: Text("Soumettre"),
             ),
             SizedBox(height: 16,),
+            ElevatedButton(onPressed: () {
+              context.go('/seconde', extra: 42);
+            }, child: Text("Aller à la seconde page"))
 
           ],
 
         ),
       ),
-    );
+    ));
+
   }
 }
